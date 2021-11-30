@@ -23,7 +23,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.PersistedBookmarkTests
             }
             if (!string.IsNullOrEmpty(BookmarkFileName))
             {
-                File.Delete(BookmarkFileName);
+                System.IO.File.Delete(BookmarkFileName);
             }
         }
 
@@ -35,7 +35,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.PersistedBookmarkTests
         protected void GivenFileExist()
         {
             BookmarkFileName = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
-            File.WriteAllText(BookmarkFileName, "");
+            System.IO.File.WriteAllText(BookmarkFileName, "");
         }
 
         protected void GivenFileContainsGarbage(int dataLength)
@@ -45,7 +45,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.PersistedBookmarkTests
             {
                 rnd.GetBytes(bytes);
             }
-            File.WriteAllBytes(BookmarkFileName, bytes);
+            System.IO.File.WriteAllBytes(BookmarkFileName, bytes);
         }
 
         protected void WhenBookmarkIsCreated()

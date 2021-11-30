@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using NUnit.Framework;
 using Shouldly;
-using Ploeh.AutoFixture;
+using AutoFixture;
 
 namespace Serilog.Sinks.Amazon.Kinesis.Tests.LogShipperFileManagerTests
 {
@@ -19,15 +19,15 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.LogShipperFileManagerTests
         public void GivenFileExistsAndNotOpened_ThenCorrectLengthIsReturned()
         {
             var length = Fixture.Create<int>();
-            File.WriteAllBytes(FileName, new byte[length]);
+            System.IO.File.WriteAllBytes(FileName, new byte[length]);
             Target.GetFileLengthExclusiveAccess(FileName).ShouldBe(length);
         }
 
         [Test]
         public void GivenFileExistsAndIsOpenedForWriting_ThenIOException()
         {
-            File.WriteAllBytes(FileName, new byte[Fixture.Create<int>()]);
-            using (File.Open(FileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
+            System.IO.File.WriteAllBytes(FileName, new byte[Fixture.Create<int>()]);
+            using (System.IO.File.Open(FileName, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Read))
             {
                 Should.Throw<IOException>(
                     () => Target.GetFileLengthExclusiveAccess(FileName)
@@ -39,8 +39,8 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.LogShipperFileManagerTests
         public void GivenFileExistsAndOpenedForReading_ThenCorrectLengthIsReturned()
         {
             var length = Fixture.Create<int>();
-            File.WriteAllBytes(FileName, new byte[length]);
-            using (File.Open(FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            System.IO.File.WriteAllBytes(FileName, new byte[length]);
+            using (System.IO.File.Open(FileName, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 Target.GetFileLengthExclusiveAccess(FileName).ShouldBe(length);
             }

@@ -7,7 +7,7 @@ using Amazon.KinesisFirehose;
 using Amazon.KinesisFirehose.Model;
 using Moq;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Serilog.Core;
 using Serilog.Sinks.Amazon.Kinesis.Common;
 using Serilog.Sinks.Amazon.Kinesis.Firehose;
@@ -28,7 +28,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.Integration.DurableKinesisFirehoseS
         protected TimeSpan ThrottleTime { get; private set; }
         protected MemoryStream DataSent { get; private set; }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetUp()
         {
             Fixture = new Fixture();
@@ -71,7 +71,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.Integration.DurableKinesisFirehoseS
             Logger = loggerConfig.CreateLogger();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TestFixtureTearDown()
         {
             Directory.Delete(LogPath, true);

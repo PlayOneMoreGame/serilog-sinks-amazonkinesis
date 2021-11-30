@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Serilog.Sinks.Amazon.Kinesis.Common;
 
 namespace Serilog.Sinks.Amazon.Kinesis.Tests.LogReaderTests
@@ -31,7 +31,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.LogReaderTests
             }
             if (!string.IsNullOrEmpty(LogFileName))
             {
-                File.Delete(LogFileName);
+                System.IO.File.Delete(LogFileName);
             }
             if (ReadContent != null)
             {
@@ -124,7 +124,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.LogReaderTests
         protected void GivenLogFileExistWithContent()
         {
             LogFileName = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
-            File.WriteAllBytes(LogFileName, RawContent);
+            System.IO.File.WriteAllBytes(LogFileName, RawContent);
         }
 
         protected void GivenInitialPosition(long position)

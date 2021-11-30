@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Shouldly;
 
 namespace Serilog.Sinks.Amazon.Kinesis.Tests.HttpLogShipperTests

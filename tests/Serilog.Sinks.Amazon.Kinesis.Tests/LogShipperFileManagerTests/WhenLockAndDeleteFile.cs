@@ -24,8 +24,8 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.LogShipperFileManagerTests
             FileShare fileShare
             )
         {
-            File.WriteAllBytes(FileName, new byte[42]);
-            using (File.Open(FileName, FileMode.OpenOrCreate, fileAccess, fileShare))
+            System.IO.File.WriteAllBytes(FileName, new byte[42]);
+            using (System.IO.File.Open(FileName, FileMode.OpenOrCreate, fileAccess, fileShare))
             {
                 Should.Throw<IOException>(
                     () => Target.LockAndDeleteFile(FileName)
@@ -36,10 +36,10 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.LogShipperFileManagerTests
         [Test]
         public void GivenFileIsNotOpened_ThenDeleteSucceeds()
         {
-            File.WriteAllBytes(FileName, new byte[42]);
+            System.IO.File.WriteAllBytes(FileName, new byte[42]);
             Target.LockAndDeleteFile(FileName);
 
-            File.Exists(FileName).ShouldBeFalse();
+            System.IO.File.Exists(FileName).ShouldBeFalse();
         }
     }
 }

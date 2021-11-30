@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Serilog.Sinks.Amazon.Kinesis.Common;
 
 namespace Serilog.Sinks.Amazon.Kinesis.Tests.LogShipperFileManagerTests
@@ -13,7 +13,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.LogShipperFileManagerTests
         protected string FileName { get; private set; }
         protected Fixture Fixture { get; private set; }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetUp()
         {
             Fixture = new Fixture();
@@ -29,7 +29,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.LogShipperFileManagerTests
         [TearDown]
         public void TearDown()
         {
-            File.Delete(FileName);
+            System.IO.File.Delete(FileName);
         }
     }
 }

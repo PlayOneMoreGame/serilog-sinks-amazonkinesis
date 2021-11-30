@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Shouldly;
 
 namespace Serilog.Sinks.Amazon.Kinesis.Tests.LogReaderTests

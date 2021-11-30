@@ -1,4 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
+[assembly: InternalsVisibleTo("Serilog.Sinks.Amazon.Kinesis.Tests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 [assembly: InternalsVisibleTo("Serilog.Sinks.Amazon.Kinesis.Tests, PublicKey=00240000048000009400000006020000" +
                                                                     "00240000525341310004000001000100" +
                                                                     "FB8D13FD344A1C6FE0FE83EF33C1080B" +

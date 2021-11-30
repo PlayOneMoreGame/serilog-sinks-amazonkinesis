@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Shouldly;
 
 namespace Serilog.Sinks.Amazon.Kinesis.Tests.Integration.DurableKinesisFirehoseSinkTests

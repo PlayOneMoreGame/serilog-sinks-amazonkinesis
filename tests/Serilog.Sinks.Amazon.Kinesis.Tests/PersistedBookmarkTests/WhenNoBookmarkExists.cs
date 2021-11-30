@@ -12,7 +12,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.PersistedBookmarkTests
             GivenFileDoesNotExist();
             WhenBookmarkIsCreated();
 
-            File.Exists(BookmarkFileName).ShouldBeTrue();
+            System.IO.File.Exists(BookmarkFileName).ShouldBeTrue();
         }
 
         [Test]

@@ -7,7 +7,7 @@ using Amazon.Kinesis;
 using Amazon.Kinesis.Model;
 using Moq;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
+using AutoFixture;
 using Serilog.Core;
 using Serilog.Sinks.Amazon.Kinesis.Common;
 using Serilog.Sinks.Amazon.Kinesis.Stream;
@@ -28,7 +28,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.Integration.DurableKinesisSinkTests
         protected TimeSpan ThrottleTime { get; private set; }
         protected MemoryStream DataSent { get; private set; }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetUp()
         {
             Fixture = new Fixture();
@@ -51,8 +51,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.Integration.DurableKinesisSinkTests
                 {
                     request.Records.ForEach(r => r.Data.WriteTo(DataSent));
                 })
-                .Returns(Task.FromResult(new PutRecordsResponse() { FailedRecordCount = 0 }));
-
+                .Returns(Task.FromResult(new PutRecordsResponse() { FailedRecordCount = 1, Records = new System.Collections.Generic.List<PutRecordsResultEntry> { new PutRecordsResultEntry { ErrorCode = "Error" } } })); 
         }
 
         protected void WhenLoggerCreated()
@@ -72,7 +71,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.Integration.DurableKinesisSinkTests
             Logger = loggerConfig.CreateLogger();
         }
 
-        [TestFixtureTearDown]
+        [OneTimeTearDown]
         public void TestFixtureTearDown()
         {
             Directory.Delete(LogPath, true);

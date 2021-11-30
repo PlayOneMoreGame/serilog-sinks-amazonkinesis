@@ -13,15 +13,13 @@ namespace Serilog.Sinks.Amazon.Kinesis.Common
             if (options == null) throw new ArgumentNullException("options");
             _options = options;
             if (string.IsNullOrWhiteSpace(options.StreamName)) throw new ArgumentException("options.StreamName");
-            _formatter = options.CustomDurableFormatter ?? new CustomJsonFormatter(
-                omitEnclosingObject: false,
+            _formatter = options.CustomDurableFormatter ?? new Serilog.Formatting.Json.JsonFormatter(
                 closingDelimiter: string.Empty,
                 renderMessage: true,
                 formatProvider: options.FormatProvider
                 );
 
-            _durableFormatter = options.CustomDurableFormatter ?? new CustomJsonFormatter(
-                omitEnclosingObject: false,
+            _durableFormatter = options.CustomDurableFormatter ?? new Serilog.Formatting.Json.JsonFormatter(
                 closingDelimiter: Environment.NewLine,
                 renderMessage: true,
                 formatProvider: options.FormatProvider

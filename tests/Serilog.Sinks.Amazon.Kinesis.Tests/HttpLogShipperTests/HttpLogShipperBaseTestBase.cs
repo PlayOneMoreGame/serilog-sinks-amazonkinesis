@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using Moq;
 using NUnit.Framework;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoMoq;
+using AutoFixture;
+using AutoFixture.AutoMoq;
 using Serilog.Sinks.Amazon.Kinesis.Common;
 using System.Collections.Generic;
 
@@ -210,7 +210,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Tests.HttpLogShipperTests
 
         protected void GivenLogReader(string logFileName, long length, int maxStreams)
         {
-            LogReaderFactory.Setup(x => x.Create(logFileName, It.IsInRange(0L, Math.Max(CurrentLogFilePosition, length), Range.Inclusive)))
+            LogReaderFactory.Setup(x => x.Create(logFileName, It.IsInRange(0L, Math.Max(CurrentLogFilePosition, length), Moq.Range.Inclusive)))
                 .Returns((string fileName, long position) =>
                 {
                     var internalPosition = position > length ? length : position;
