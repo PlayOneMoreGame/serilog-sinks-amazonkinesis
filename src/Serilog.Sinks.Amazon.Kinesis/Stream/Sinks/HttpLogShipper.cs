@@ -45,8 +45,6 @@ namespace Serilog.Sinks.Amazon.Kinesis.Stream.Sinks
 
         public void Dispose()
         {
-            _throttle.Flush();
-            _throttle.Stop();
             _throttle.Dispose();
         }
 
