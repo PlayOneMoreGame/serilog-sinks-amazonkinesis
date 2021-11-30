@@ -15,7 +15,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Common
         private const int THROTTLING_FREE = 0;
         private const int THROTTLING_BUSY = 1;
 
-        public Throttle (Action callback, TimeSpan throttlingTime)
+        public Throttle(Action callback, TimeSpan throttlingTime)
         {
             _callback = callback;
             _throttlingTime = throttlingTime;
@@ -29,12 +29,24 @@ namespace Serilog.Sinks.Amazon.Kinesis.Common
 
         private void FireTimer()
         {
-            lock (_lockObj)
+            try
             {
-                if (_running)
+                // This module uses locking. Is it necessary? I don't know. The
+                // module was rewritten in this fork without locking:
+                // https://github.com/mstepura/serilog-sinks-amazonkinesis/blob/master/src/Serilog.Sinks.Amazon.Kinesis/Primitives/Throttle.cs
+                lock (_lockObj)
                 {
-                    _callback();
+                    if (_running)
+                    {
+                        _callback();
+                    }
                 }
+            }
+            finally
+            {
+                // ensure throttling flag is reset to THROTTLING_FREE if it was THROTTLING_BUSY, 
+                // otherwise it will not run again
+                Interlocked.CompareExchange(ref _throttling, THROTTLING_FREE, THROTTLING_BUSY);
             }
         }
 
@@ -48,7 +60,7 @@ namespace Serilog.Sinks.Amazon.Kinesis.Common
             if (Interlocked.CompareExchange(ref _throttling, THROTTLING_BUSY, THROTTLING_FREE) == THROTTLING_FREE)
             {
                 _running = true;
-                return _timer.Change(_throttlingTime, new TimeSpan(0, 0, 0, 0, Timeout.Infinite));
+                return _timer.Change(_throttlingTime, Timeout.InfiniteTimeSpan);
             }
             return false;
         }
